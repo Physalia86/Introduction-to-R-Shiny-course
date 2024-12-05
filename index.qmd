@@ -1,9 +1,4 @@
-# Preface {.unnumbered}
+# Welcome! {.unnumbered}
 
-This is a Quarto book.
+This is the website for the course "Introduction to R Shiny" by [Physalia Courses](https://www.physalia-courses.org/).
 
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
-
-```{r}
-1 + 1
-```

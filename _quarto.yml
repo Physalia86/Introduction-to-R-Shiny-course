@@ -1,13 +1,16 @@
 project:
   type: book
-  output-dir: _docs
+  output-dir: docs
 
 book:
   title: "Introduction to R Shiny"
   author: "Physalia-courses"
   date: "2025-01-27"
+  cover-image: "logo-physalia.jpg"
   chapters:
     - index.qmd
+    - text: "About the course"
+      href: README.md
     - references.qmd
 
 bibliography: references.bib
@@ -16,5 +19,4 @@ format:
   html:
     theme: cosmo
 
-editor: visual
-
+editor: source
