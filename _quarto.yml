@@ -11,6 +11,19 @@ book:
     - index.qmd
     - text: "About the course"
       href: README.md
+    - part: "Day 1"
+      chapters:
+        - 01-01-introduction.qmd  
+        - 01-02-html.qmd
+        - 01-03-outputs.qmd
+        - 01-04-inputs.qmd
+        - 01-05-reactivity.qmd
+        - 01-06-layout.qmd
+    - part: "Day 2"
+      chapters:
+        - 02-01-reactivity-adv.qmd
+        - 02-02-customization.qmd
+        - 02-03-deploy.qmd
     - references.qmd
 
 bibliography: references.bib
