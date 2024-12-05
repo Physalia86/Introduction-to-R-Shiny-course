@@ -1,0 +1,20 @@
+project:
+  type: book
+  output-dir: _docs
+
+book:
+  title: "Introduction to R Shiny"
+  author: "Physalia-courses"
+  date: "2025-01-27"
+  chapters:
+    - index.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+
+editor: visual
+
