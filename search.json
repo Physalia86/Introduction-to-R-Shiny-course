@@ -4,9 +4,69 @@
     "href": "index.html",
     "title": "Introduction to R Shiny",
     "section": "",
-    "text": "Preface\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.\n\n1 + 1\n\n[1] 2",
+    "text": "Welcome!\nThis is the website for the course “Introduction to R Shiny” by Physalia Courses.",
     "crumbs": [
-      "Preface"
+      "Welcome!"
+    ]
+  },
+  {
+    "objectID": "README.html",
+    "href": "README.html",
+    "title": "1  Introduction to R Shiny",
+    "section": "",
+    "text": "1.1 Overview\nDates\n27-28 January 2025\nTo foster international participation, this course will be held online.\nStrictly speaking, Shiny is an R package; however, it surpasses this classification. It stands as a framework that empowers R users to craft sophisticated, responsive web applications, even with a modest grasp of web development. But why do we consider it a framework? The reason lies in the multitude of packages that expand Shiny’s functionality, enabling the execution of intricate processes. Moreover, this ecosystem continues to expand daily. To fully harness the capabilities of Shiny, one must grasp its fundamental principles. In this workshop, we will delve deeply into these concepts. By the conclusion of the session, you will be well-equipped to confidently create web applications directly from within R.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>About the course</span>"
+    ]
+  },
+  {
+    "objectID": "README.html#target-audience",
+    "href": "README.html#target-audience",
+    "title": "1  Introduction to R Shiny",
+    "section": "1.2 Target Audience",
+    "text": "1.2 Target Audience\nThis workshop is targeting a broad audience:\n\nData Analysts\n\nData Scientists\n\nResearchers\n\nBiologists\n\nEconomists\n\nAmong others. These participants all share the benefit of enhanced productivity and insight through the implementation of web applications.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>About the course</span>"
+    ]
+  },
+  {
+    "objectID": "README.html#prerequisites",
+    "href": "README.html#prerequisites",
+    "title": "1  Introduction to R Shiny",
+    "section": "1.3 Prerequisites",
+    "text": "1.3 Prerequisites\n\nA basic proficiency in R is required.\nSome knowledge of dplyr and ggplot2 would be beneficial as we’ll use them to build our applications.\nFamiliarity with the RStudio IDE (Integrated Development Environment) is preferable.\nNo knowledge of HTML, CSS, or JavaScript is required.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>About the course</span>"
+    ]
+  },
+  {
+    "objectID": "README.html#tools",
+    "href": "README.html#tools",
+    "title": "1  Introduction to R Shiny",
+    "section": "1.4 Tools",
+    "text": "1.4 Tools\nThe following tools need to be installed beforehand:\n\nR: Available at R download. It’s ok if you don’t have the latest version.\nRStudio: Download RStudio\nShiny: Install the latest stable release via install.packages(\"shiny\")\nTidyverse: Install via install.packages(\"tidyverse\")\nA modern web browser (preferably Google Chrome).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>About the course</span>"
+    ]
+  },
+  {
+    "objectID": "README.html#learning-outcomes",
+    "href": "README.html#learning-outcomes",
+    "title": "1  Introduction to R Shiny",
+    "section": "1.5 Learning Outcomes",
+    "text": "1.5 Learning Outcomes\nAfter completing the workshop, you’ll be able to:\n\nUnderstand the structure of a Shiny application.\nRead and understand the code used to create a Shiny app.\nGain a solid knowledge of Shiny reactivity concepts.\nCreate a Shiny app and deploy it to shinyapps.io.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>About the course</span>"
+    ]
+  },
+  {
+    "objectID": "README.html#program",
+    "href": "README.html#program",
+    "title": "1  Introduction to R Shiny",
+    "section": "1.6 Program",
+    "text": "1.6 Program\n\n1.6.1 Day 1 (2-8 pm Berlin time)\n\nStructure of a Shiny application\nUsing HTML with the htmltools package\nShiny Input Widgets\nShiny Outputs implementation\nShiny app layout\nReactivity – Basics\n\n\n\n1.6.2 Day 2 (2-8 pm Berlin time)\n\nReactivity – Advanced\nShiny apps theming and customization\nDeploying a Shiny app to shinyapps.io",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>About the course</span>"
     ]
   }
 ]
