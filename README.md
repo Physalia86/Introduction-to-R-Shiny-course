@@ -1,5 +1,4 @@
-
-# Introduction to R Shiny
+# Introduction to R Shiny {.unnumbered}
 
 **Dates**  
 27-28 January 2025  

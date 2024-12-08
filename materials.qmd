@@ -1,0 +1,17 @@
+
+# Materials {.unnumbered}
+
+In this section, we provide a list of materials that can be useful for learning how to use the [`{tidyverse}`](https://www.tidyverse.org/), and how to create Shiny applications.
+
+## Tidyverse
+
+- Book [R for Data Science](https://r4ds.hadley.nz/), by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+
+
+## Shiny
+
+- Tutorial [Shiny for R](https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/), by Posit.
+
+- Book [Mastering Shiny](https://mastering-shiny.org/), by Hadley Wickham.
+
+- Book [Engineering Production-Grade Shiny Apps](https://engineering-shiny.org/),  by Colin Fay, Sébastien Rochette, Vincent Guyader and Cervan Girard.

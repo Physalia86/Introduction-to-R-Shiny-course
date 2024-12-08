@@ -11,6 +11,7 @@ book:
     - index.qmd
     - text: "About the course"
       href: README.md
+    - materials.qmd      
     - part: "Day 1"
       chapters:
         - 01-01-introduction.qmd  
