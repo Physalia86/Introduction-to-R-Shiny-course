@@ -14,7 +14,7 @@ In this section, we provide a list of materials that can be useful for learning 
 
 -   Book [Engineering Production-Grade Shiny Apps](https://engineering-shiny.org/), by Colin Fay, Sébastien Rochette, Vincent Guyader and Cervan Girard.
 
--   Gallery [Shiny input widgets](https://shiny.posit.co/r/gallery/widgets/widget-gallery/), by Posit.
+-   Gallery [Shiny components (inputs, outputs, messages)](https://shiny.posit.co/r/components/), by Posit.
 
 -   Gallery [Nicer-looking Shiny widgets](https://dreamrs.github.io/shinyWidgets/), by Victor Perrier, Fanny Meyer, and David Granjon.
 
