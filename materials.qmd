@@ -21,3 +21,12 @@ In this section, we provide a list of materials that can be useful for learning 
 -   AI Assistant [Shiny AI assistant](https://gallery.shinyapps.io/assistant/), by Posit.
 
 -   UI editor [Shiny UI editing tool](https://rstudio.github.io/shinyuieditor/), by Posit.
+
+
+## Building modern dashboards
+
+-  [Quarto dashboards **with** Shiny](https://quarto.org/docs/dashboards/interactivity/shiny-r.html)
+
+-  [Quarto dashboards **without** Shiny](https://quarto.org/docs/dashboards/)
+
+-  [Structuring dashboards with `{bslib}`](https://rstudio.github.io/bslib/articles/dashboards/index.html)

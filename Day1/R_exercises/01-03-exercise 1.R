@@ -46,7 +46,11 @@ ui <- page_sidebar(
     hr(),  #add horizontal line
     
     # Artwork from Allison Horst
-    img(src = "https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png")
+    tags$figure(
+      img(src = "https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png",
+          width = "100%"),
+      tags$figcaption(em("Artwork by @allison_horst"))
+    )
   ),
   
   # Main panel content
