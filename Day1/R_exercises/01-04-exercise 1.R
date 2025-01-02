@@ -1,6 +1,10 @@
 
 
-## Shiny app example that explores more input widgets
+### Day 1, Section 4, Exercise 1
+
+# Using the below example:
+#  1. Change the input widget from species to Checkbox Group
+#  2. Add a radio button widget that also filters the penguins dataset by year (in addition to species)
 
 library(palmerpenguins)
 library(ggplot2)
@@ -97,7 +101,7 @@ server <- function(input, output, session) {
   output$tbl <- renderDataTable(
     brushedPoints(penguins_filt(), input$plot_brush),
     options = list(pageLength = 5)
-    )
+  )
   
   
   ### Output to download ###

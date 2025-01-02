@@ -61,10 +61,10 @@ After completing the workshop, you’ll be able to:
 ### Day 1 (2-8 pm Berlin time)
 - Structure of a Shiny application
 - Using HTML with the `htmltools` package
-- Shiny Input Widgets
-- Shiny Outputs implementation
-- Shiny app layout
 - Reactivity – Basics
+- Shiny Input widgets
+- Shiny Outputs
+- Shiny app layout
 
 ### Day 2 (2-8 pm Berlin time)
 - Reactivity – Advanced

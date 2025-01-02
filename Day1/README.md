@@ -7,8 +7,8 @@
 
 1. **Introduction to Shiny**
 2. **Introduction to HTML and {htmltools}**
-3. **Implementation of Shiny Outputs**
+3. **Introduction to Reactivity**
 4. **Input Widgets**
-5. **Introduction to Reactivity**
-6. **Shiny Apps' Layout**
+5. **App Outputs**
+6. **Shiny Apps Layout**
 

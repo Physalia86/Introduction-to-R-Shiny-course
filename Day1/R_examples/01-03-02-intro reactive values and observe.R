@@ -1,6 +1,6 @@
 
 
-## Intro to reactive objects
+## Intro to reactive values and using `observe` for side effects
 
 library(palmerpenguins)
 library(ggplot2)
@@ -54,7 +54,8 @@ ui <- page_sidebar(
   # Main panel content
   h3("Exploration of Palmer penguins data"),
   
-  plotOutput("biplot")
+  plotOutput("biplot")  #add figure
+  
   
 )
 
@@ -74,13 +75,26 @@ server <- function(input, output, session) {
   })
   
   
+  # Create reactive value for sample size of dataset
+  r <- reactiveValues(n = nrow(penguins))
+  
+  # Update reactiveValue for sample size based on penguins_filt
+  observe({
+    req(penguins_filt())  #ensure/require that reactive object is available before proceeding
+    r$n <- nrow(penguins_filt())  #update reactive value
+  })
+  
+  
+  
   # Create biplot based on selected variables
   output$biplot <- renderPlot({
     ggplot(penguins_filt()) +  #reactive objects need empty parentheses to work
       geom_point(aes(!!input$var_x, !!input$var_y, color = species), size = 2, alpha = 0.75) +
       scale_color_brewer(palette = "Set1") +
+      labs(title = paste("N =", r$n)) +  #reactive value used in title
       theme_bw(base_size = 20)
   })
+  
   
 }
 

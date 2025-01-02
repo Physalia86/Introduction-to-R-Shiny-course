@@ -26,6 +26,13 @@ ui <- page_sidebar(
                        selected = "Adelie"
     ),
     
+    # Add action button to update filter
+    actionButton(
+      inputId = "update_filt",
+      label = "Update",
+      class = "btn-primary"
+    ),
+    
     hr(),  #add horizontal line
     
     # Controls for top plot
@@ -45,6 +52,7 @@ ui <- page_sidebar(
                 max = 100,
                 value = 30,
                 step = 1),
+    
     
     
     hr(),  #add horizontal line
@@ -87,15 +95,22 @@ ui <- page_sidebar(
 
 server <- function(input, output, session) {
   
+  # Create reactive object
+  penguins_filt <- eventReactive(input$update_filt, {
+    penguins |> 
+      filter(species %in% input$spp)
+  })
+  
   # Create histogram based on selection from inputs
   output$hist <- renderPlot({
-    ggplot(penguins[penguins$species %in% input$spp,]) +
-      geom_histogram(aes(!!input$var), fill = "cadetblue", bins = input$bins) +
+    ggplot(penguins_filt()) +
+      geom_histogram(aes(!!input$var, fill = species), bins = input$bins) +
+      scale_fill_brewer(palette = "Set1") +
       theme_bw(base_size = 20)
   })
   
   output$biplot <- renderPlot({
-    ggplot(penguins[penguins$species %in% input$spp,]) +
+    ggplot(penguins_filt()) +
       geom_point(aes(!!input$var_x, !!input$var_y, color = species), size = 2, alpha = 0.75) +
       scale_color_brewer(palette = "Set1") +
       theme_bw(base_size = 20)
