@@ -5,6 +5,7 @@
 
 ## Topics Covered:
 
-1. **Advanced Reactivity**
-2. **Shiny Apps Theming and Customization**
-3. **Deploying Shiny Apps to shinyapps.io**
+1. **Shiny apps theming and customization**
+2. **Basics of interactive mapping with {leaflet}**
+3. **Example: Creation of interactive spatial dashboard**
+3. **Deploying Shiny apps to shinyapps.io**

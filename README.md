@@ -60,14 +60,15 @@ After completing the workshop, you’ll be able to:
 
 ### Day 1 (2-8 pm Berlin time)
 - Structure of a Shiny application
-- Using HTML with the `htmltools` package
+- Using HTML with {`htmltools`}
 - Reactivity – Basics
 - Shiny Input widgets
 - Shiny Outputs
 - Shiny app layout
 
 ### Day 2 (2-8 pm Berlin time)
-- Reactivity – Advanced
 - Shiny apps theming and customization
+- Basics of interactive mapping with {`leaflet`}
+- Example: Creation of interactive spatial dashboard
 - Deploying a Shiny app to shinyapps.io
 
