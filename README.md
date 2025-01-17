@@ -45,6 +45,9 @@ The following tools need to be installed beforehand:
 - **RStudio**: [Download RStudio](https://rstudio.com/products/rstudio/download/preview/)
 - **Shiny**: Install the latest stable release via `install.packages("shiny")`
 - **Tidyverse**: Install via `install.packages("tidyverse")`
+- **Additional R packages from CRAN**: Install via `install.packages(c("rsconnect", "bslib", "palmerpenguins", "DT", "bsicons", "RColorBrewer", "plotly", "thematic", "showtext", "terra", "sf", "leaflet", "viridis", "shinyWidgets", "rnaturalearth", "mapview", "webshot2", "pagedown", "curl", "remotes"))`
+- **Additional R package from GitHub**: Install via `remotes::install_github("r-spatial/leafem")`
+- **Additional R package from R-Universe**: Install via `install.packages("rnaturalearthhires", repos = "https://ropensci.r-universe.dev", type = "source")`
 - A modern web browser (preferably Google Chrome).
 
 ## Learning Outcomes
