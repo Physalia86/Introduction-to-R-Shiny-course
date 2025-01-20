@@ -1,3 +1,13 @@
 ---
 title: "Input Widgets"
 ---
+
+There are a wide range of different input widgets for Shiny apps, including those that were made by developers and stored in packages to extend the functionality of Shiny (e.g., [shinyWidgets](https://dreamrs.github.io/shinyWidgets/)). An example of some of the available inputs from the `{shiny}` package can be seen in the screenshot below.
+
+[![A screenshot of input widgets from the Posit website.](src/Shiny_inputs.png)](https://shiny.posit.co/r/components/)
+
+<br>
+
+These inputs can be used to select numbers, dates, character strings, as well as include action buttons, toggles, and checkboxes. As mentioned in previous sections, inputs are placed within the UI section of a Shiny app, which allows the user to interact with them. Each input must be given its own ID in order to properly identify it in the server. These inputs can be customized through the text labels placed on or next to them, the color(s) of the input, as well as its size, placement and other features. While some of these attributes can be modified using the input R function arguments, others require a little knowledge of CSS classes (which is the web language for styling and aesthetics of web elements).
+
+Additional info on Shiny inputs can be found from the [Shiny for R](https://shiny.posit.co/r/getstarted/shiny-basics/lesson3/) tutorial and the Shiny [components](https://shiny.posit.co/r/components/) page.

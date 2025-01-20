@@ -1,3 +1,0 @@
----
-title: "Implementation of Shiny Outputs"
----

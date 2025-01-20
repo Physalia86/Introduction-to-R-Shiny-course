@@ -1,0 +1,236 @@
+---
+format:
+  revealjs:
+    theme: [default, style.scss]
+    slide-number: c/t
+    show-slide-number: all
+    controls: true
+    preview-links: true
+    embed-resources: true
+    history: false
+    code-fold: false
+    code-tools: true
+    code-overflow: wrap
+    view-distance: 10
+    margin: 0.2
+    code-annotations: hover
+execute: 
+  echo: true
+  messages: false
+---
+
+## {.center}
+
+<h1 class="text-indigo-pink">Intro to Shiny, Day 1<h1>
+
+<h3>Learn how to make your own interactive web apps in R</h3>
+
+::: {style="margin-top:50px"}
+### Josh Cullen {.text-orange-gold}
+
+January 27, 2025
+:::
+
+
+## What is Shiny? {.text-lime-cyan}
+
+[**Shiny**]{style="color: #0044ffa3"} is software for web app development that mitigates the need for knowledge of typical programming languages (e.g., JavaScript, HTML, and CSS) for web development.
+
+::: incremental
+- All you need to know is how to code in [R](https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/index.html) (or now [Python](https://shiny.posit.co/py/)!) to develop and deploy a web application
+- These web applications are often run: 
+  1. locally
+  2. online
+  3. as part of an R package
+
+:::
+
+## Why Shiny? {.text-lime-cyan}
+
+There are a wide number of reasons why [**you**]{.underline} may be interested in creating a web app with Shiny:
+
+::::: columns
+:::: {.column width="50%"}
+:::{ .fragment fragment-index=1}
+1. Data exploration
+:::
+
+::: {.fragment fragment-index=2}
+2. Data collection
+:::
+
+::: {.fragment fragment-index=3}
+3. Sharing results
+:::
+
+::: {.fragment fragment-index=4}
+4. Decision support
+:::
+::::
+
+:::: {.column width="50%"}
+:::: {.r-stack}
+::: {.fragment fragment-index=1}
+![](https://joshcullen.github.io/bayesmove/articles/Shiny-Fig3.png)
+:::
+
+::: {.fragment fragment-index=2}
+![](images/expert_elicitation_app.png)
+:::
+
+::: {.fragment fragment-index=3}
+![](images/green_turtle_app.png)
+:::
+
+::: {.fragment fragment-index=4}
+![](images/ecocast_app.png)
+:::
+::::
+::::
+
+:::::
+
+
+## Why Shiny? {.text-lime-cyan}
+
+Additionally, web apps are a good solution for many projects since they are:
+
+::: incremental
+1. Free for end-users
+2. Cross-platform (e.g., different devices and operating systems)
+3. Easily accessible to many people without software installation or knowledge of R
+:::
+
+
+## How Shiny? {.text-lime-cyan}
+
+Like all web apps, Shiny can be broken down into its two major components:
+
+::: columns
+::: {.column width="50%"}
+1. User Interface (UI or front-end)
+2. Server (or back-end)
+
+:::
+
+::: {.column width="50%"}
+![[Photo credit: Danielle Navarro](https://psyr.djnavarro.net/shiny)](https://psyr.djnavarro.net/img_shiny/architecture.png)
+:::
+:::
+
+
+## How Shiny? {.text-lime-cyan}
+
+The UI is what all app users see and interact with, whereas the server is what does all the work behind the scenes.
+
+::: panel-tabset
+### UI
+
+```{.r code-line-numbers="|4|7-8|11"}
+library(shiny)
+
+ui <- fluidPage(
+  titlePanel("Old Faithful"),                                     # <1>
+  sidebarLayout(
+    sidebarPanel = sidebarPanel(
+      sliderInput(inputId = "bins", label = "Number of bins:",    # <2>
+            min = 1, max = 50, value = 30)                        # <2>
+    ),
+    mainPanel = mainPanel(
+      plotOutput("distPlot")                                      # <3>
+    )
+  )
+)
+```
+1. Define title of app
+2. Add an input widget
+3. Add the output product
+
+### Server
+
+```{.r code-line-numbers="|3|6|9"}
+server <- function(input, output, session) {
+  
+     output$distPlot <- renderPlot({                                            # <4>
+      # generate bins based on input$bins from ui.R
+      wait <- faithful[, 2] 
+      bins <- seq(min(wait), max(wait), length.out = input$bins + 1)            # <5>
+      
+      # draw the histogram with the specified number of bins
+      hist(wait, breaks = bins, col = 'darkgray', border = 'white')             # <6>
+   })
+     
+}
+```
+4. Store output product
+5. Define variable influenced by input
+6. Create resulting plot
+:::
+
+
+
+
+
+## How Shiny? {.text-lime-cyan}
+
+The third important component of Shiny apps is **reactive expressions**.
+
+::: {.fragment .fade-in}
+- Reactive objects automatically update the state of the app to produce changes to [outputs](https://mastering-shiny.org/basic-ui.html#outputs) that reflect changes to [inputs](https://shiny.posit.co/r/gallery/widgets/widget-gallery/)
+:::
+
+::: {.fragment .fade-up}
+<center>![Photo credit: [`reactlog`](https://rstudio.github.io/reactlog/)](http://rstudio.github.io/reactlog/readme-images/pythagoras.gif)</center>
+:::
+
+
+
+
+
+## Building Shiny apps {.text-lime-cyan}
+
+Developers can create Shiny apps in a variety of ways:
+
+::: incremental
+- Creating a single app.R file
+- Creating a 2-file app using ui.R and server.R
+- Using an [R Markdown document](https://shiny.posit.co/r/articles/build/interactive-docs/)
+- Using Quarto to create interactive [docs](https://quarto.org/docs/interactive/shiny/), [dashboards](https://quarto.org/docs/dashboards/interactivity/shiny-r.html), and [slides](https://quarto.org/docs/presentations/revealjs/)
+:::
+
+
+
+## Sharing Shiny apps {.text-lime-cyan}
+
+Apps can be [shared](https://shiny.posit.co/r/getstarted/shiny-basics/lesson7/) using:
+
+- a set of files (e.g., app.R, data.csv) run locally in R
+- deployed on an online server (e.g., shinyapps.io has 'Free' plan)
+
+::: {.fragment .fade-in-then-semi-out}
+- deployed as a static file online (e.g., GitHub pages using [`shinylive`](https://posit-dev.github.io/r-shinylive/))
+:::
+
+::: {.fragment}
+If deployed online, apps can even be embedded on separate websites
+
+[Green turtle example](https://joshcullen.github.io/Research/GreenTurtleSDM)
+:::
+
+
+## Additional resources {.text-lime-cyan}
+
+- [Mastering Shiny](https://mastering-shiny.org) by Hadley Wickham
+- [ShinyUiEditor](https://rstudio.github.io/shinyuieditor/) for creating UIs via a drag-and-drop template
+- [Shiny gallery](https://shiny.posit.co/r/gallery/)
+- [Shiny Quarto docs](https://quarto.org/docs/interactive/shiny/)
+- [Deploying to shinyapps.io](https://shiny.posit.co/r/articles/share/shinyapps/)
+- [R Shiny Webinar Series via EFI](https://ecoforecast.org/workshops/r-shiny-seminar-series/)
+- [Demo for creating app via shinylive](https://quarto.thecoatlessprofessor.com/r-shinylive-demo/)
+
+
+# Your turn {background-color="#ff9900aa" transition="slide-in"}
+
+Let's do some hands-on examples to practice building and sharing Shiny apps from the ground up
+
+<center>![](https://media1.giphy.com/media/WZ4M8M2VbauEo/giphy.webp?cid=ecf05e47r0wlxdp5mpsybyy20zaagxvg59k5w17j1dpzzqpr&ep=v1_gifs_search&rid=giphy.webp&ct=g){width=80%}</center>

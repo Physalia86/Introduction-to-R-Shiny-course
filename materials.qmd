@@ -34,3 +34,14 @@ In this section, we provide a list of materials that can be useful for learning 
 -  [Theming Shiny apps and dashboards with `{bslib}`](https://rstudio.github.io/bslib/articles/theming/index.html)
 
 -  [Auto theming of plots with `{thematic}`](https://rstudio.github.io/thematic/index.html)
+
+
+## Interactive mapping
+
+-  [Creating interactive maps with `{leaflet}`](https://rstudio.github.io/leaflet/)
+
+-  [Using Leaflet with Shiny](https://rstudio.github.io/leaflet/articles/shiny.html)
+
+-  [Extensions for Leaflet with `{leafem}`](https://r-spatial.github.io/leafem/)
+
+-  [Quick and convenient interactive maps with `{mapview}`](https://r-spatial.github.io/mapview/index.html)

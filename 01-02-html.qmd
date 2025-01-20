@@ -1,3 +1,50 @@
 ---
 title: "Introduction to HTML and `{htmltools}`"
 ---
+
+While this course does not expect any knowledge of HTML coding, adding a few tools to our skill set will be immensely helpful as we customize and provide added functionality to our Shiny apps. If you are already familiar with Markdown syntax (in R Markdown, Quarto, or other files), we will show how to use some of these same features in HTML to extend your Shiny app and present materials as desired.
+
+While you likely did not explicitly load in the `{htmltools}` R package, it is a dependency of `{shiny}` and has already been installed on your computer. We will use functions from this package (which are technically HTML tags) to do things such as change font appearance (e.g., bold, italic), add hyperlinks, insert images, and more. These R functions are simply wrappers for the actual HTML tags; but feel free to use either approach depending on when and where you would like to use them. Below, you'll find a table that shows the conversion between some of these HTML tags with Markdown syntax and how this affects the appearance of the document.
+
++-------------+-------------------------+------------------------------------+-------------------------------------+----------------------------+
+| Feature     | Markdown                | HTML                               | `{htmltools}`                       | Output                     |
++=============+=========================+====================================+=====================================+============================+
+| italic      | ``` markdown            | ``` html                           | ``` r                               | *\                         |
+|             | *Shiny*                 | <i>Shiny</i>                       | em(Shiny)                           | Shiny*                     |
+|             | ```                     | ```                                | ```                                 |                            |
++-------------+-------------------------+------------------------------------+-------------------------------------+----------------------------+
+| bold        | ``` markdown            | ``` html                           | ``` r                               | **\                        |
+|             | **Shiny**               | <b>Shiny</b>                       | strong(Shiny)                       | Shiny**                    |
+|             | ```                     | ```                                | ```                                 |                            |
++-------------+-------------------------+------------------------------------+-------------------------------------+----------------------------+
+| header 1    | ``` markdown            | ``` html                           | ``` r                               | # Header 1 {.unnumbered}   |
+|             | # Header 1              | <h1>Header 1</h1>                  | h1(Header 1)                        |                            |
+|             | ```                     | ```                                | ```                                 |                            |
++-------------+-------------------------+------------------------------------+-------------------------------------+----------------------------+
+| header 2    | ``` markdown            | ``` html                           | ``` r                               | ## Header 2 {.unnumbered}  |
+|             | ## Header 2             | <h2>Header 2</h2>                  | h2(Header 2)                        |                            |
+|             | ```                     | ```                                | ```                                 |                            |
++-------------+-------------------------+------------------------------------+-------------------------------------+----------------------------+
+| header 3    | ``` markdown            | ``` html                           | ``` r                               | ### Header 3 {.unnumbered} |
+|             | ### Header 3            | <h3>Header 3</h3>                  | h3(Header 3)                        |                            |
+|             | ```                     | ```                                | ```                                 |                            |
++-------------+-------------------------+------------------------------------+-------------------------------------+----------------------------+
+| code        | ``` markdown            | ``` html                           | ``` r                               | `app`                      |
+|             | `app`                   | <code>app</code>                   | code(app)                           |                            |
+|             | ```                     | ```                                | ```                                 |                            |
++-------------+-------------------------+------------------------------------+-------------------------------------+----------------------------+
+| linebreak   | ``` markdown            | ``` html                           | ``` r                               | Shiny\                     |
+|             | Shiny\                  | Shiny<br>app                       | Shiny br() app                      |                            |
+|             | app                     | ```                                | ```                                 | app                        |
+|             | ```                     |                                    |                                     |                            |
++-------------+-------------------------+------------------------------------+-------------------------------------+----------------------------+
+| hyperlink   | ``` markdown            | ``` html                           | ``` r                               | [Shiny](shiny.posit.co)    |
+|             | [Shiny](shiny.posit.co) | <a href="shiny.posit.co">Shiny</a> | a("Shiny", href = "shiny.posit.co") |                            |
+|             | ```                     | ```                                | ```                                 |                            |
++-------------+-------------------------+------------------------------------+-------------------------------------+----------------------------+
+| image       | ``` markdown            | ``` html                           | ``` r                               | ![](logo-physalia.jpg)     |
+|             | ![](logo-physalia.jpg)  | <img src="logo-physalia.jpg">      | img(src="logo-physalia.jpg")        |                            |
+|             | ```                     | ```                                | ```                                 |                            |
++-------------+-------------------------+------------------------------------+-------------------------------------+----------------------------+
+
+: Comparison between Markdown, HTML, and `{htmltools}` syntax

@@ -1,0 +1,149 @@
+---
+title: "Introduction to Reactivity"
+---
+
+Reactivity is the essential component of Shiny apps that allows them to update visualizations, filter datasets, and generate model outputs. Through reactive Shiny elements, we can avoid needing to learn JavaScript (in place of R or Python) to code these interactive web applications that were traditionally created by web developers.
+
+As you saw in the initial introduction to Shiny, a standard app can be simplified into the user interface (UI) and the server:
+
+```{r}
+#| eval: false
+
+library(shiny)
+
+ui <- fluidPage(
+  # what the user sees and interacts with
+)
+
+server <- function(input, output, session) {
+  # back end logic for performing computations
+}
+
+shinyApp(ui, server)
+```
+
+To add reactivity to a Shiny app, [**input widgets**](01-04-inputs.qmd) are added to the UI for users to interact with and reactive values and/or objects are added to the server to update [**outputs**](01-05-outputs.qmd) based on the adjustments made to the inputs. Whenever an input is changed, the outputs become invalidated and all connected objects between the input and output are updated.
+
+Below is an example of a simple Shiny app, where a slider input is used to adjust the number of bins for a histogram:
+
+::: panel-tabset
+### UI
+
+```{.r code-line-numbers="|4|7-8|11"}
+library(shiny)
+
+ui <- fluidPage(
+  titlePanel("Old Faithful"),                                     # <1>
+  sidebarLayout(
+    sidebarPanel = sidebarPanel(
+      sliderInput(inputId = "bins", label = "Number of bins:",    # <2>
+            min = 1, max = 50, value = 30)                        # <2>
+    ),
+    mainPanel = mainPanel(
+      plotOutput("distPlot")                                      # <3>
+    )
+  )
+)
+```
+1. Define title of app
+2. Add an input widget
+3. Place the output product
+
+### Server
+
+```{.r code-line-numbers="|3|6|9"}
+server <- function(input, output, session) {
+  
+     output$distPlot <- renderPlot({                                            # <4>
+      # generate bins based on input$bins from ui.R
+      wait <- faithful[, 2] 
+      bins <- seq(min(wait), max(wait), length.out = input$bins + 1)            # <5>
+      
+      # draw the histogram with the specified number of bins
+      hist(wait, breaks = bins, col = 'darkgray', border = 'white')             # <6>
+   })
+     
+}
+```
+4. Store output product
+5. Define variable influenced by reactive input
+6. Create resulting plot
+:::
+
+<br><br>
+
+We can expand on this example further by creating a reactive object after filtering a dataset based on the inputs:
+
+::: panel-tabset
+### UI
+
+```{.r code-line-numbers="|14|20|32"}
+library(palmerpenguins)
+library(ggplot2)
+library(dplyr)
+library(shiny)
+library(bslib)
+
+ui <- page_sidebar(
+  title = h1("Penguins dashboard"),
+  
+  # Define sidebar inputs
+  sidebar = sidebar(
+    title = strong("Histogram controls"),  #make text bold
+    
+    radioButtons(inputId = "spp",                                               # <1>
+                 label = "Select a species",                                    
+                 choices = unique(penguins$species)                             
+    ),                                                                          
+    
+    #create slider input for histogram
+    sliderInput("years",                                                        # <2>
+                "Select years of interest",
+                min = min(penguins$year),
+                max = max(penguins$year),
+                value = range(penguins$year),
+                step = 1,
+                sep = "")
+  ),
+  
+  # Main panel content
+  h3("Exploration of Palmer penguins data"),
+  
+  plotOutput("biplot")                                                          # <3>
+  
+)
+```
+1. Input to filter by species
+2. Input to filter by year
+3. Placement of the output plot
+
+### Server
+
+```{.r code-line-numbers="|3|12"}
+server <- function(input, output, session) {
+  
+  # Create reactive object to filter based on multiple inputs
+  penguins_filt <- reactive({                                                   # <4>
+    penguins |> 
+      filter(year >= input$years[1] & year <= input$years[2],
+             species == input$spp)
+  })
+  
+  
+  # Create biplot based on selected variables
+  output$biplot <- renderPlot({
+    ggplot(penguins_filt()) +  #reactive objects need empty parentheses         # <5>
+      geom_point(aes(bill_length_mm, body_mass_g), color = species),
+        size = 2, alpha = 0.75) +
+      scale_color_brewer(palette = "Set1") +
+      theme_bw(base_size = 20)
+  })
+}
+```
+4. Create reactive object based on filtered inputs
+5. Use reactive object with standard `ggplot2` code
+:::
+
+<br><br>
+
+For more information on reactivity in Shiny apps, please refer to descriptions and examples from [Mastering Shiny](https://mastering-shiny.org/basic-reactivity.html) as well as the [Shiny for R](https://shiny.posit.co/r/getstarted/build-an-app/reactivity-essentials/reactive-elements.html) tutorial.

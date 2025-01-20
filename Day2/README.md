@@ -5,7 +5,7 @@
 
 ## Topics Covered:
 
-1. **Shiny apps theming and customization**
+1. **Shiny app theming and customization**
 2. **Basics of interactive mapping with {leaflet}**
 3. **Example: Creation of interactive spatial dashboard**
-3. **Deploying Shiny apps to shinyapps.io**
+4. **Deploying Shiny apps to shinyapps.io**

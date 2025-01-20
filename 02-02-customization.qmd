@@ -1,3 +1,0 @@
----
-title: "Shiny Apps Theming and Customization"
----

@@ -1,0 +1,148 @@
+/*-- scss:defaults --*/
+  
+
+// $body-bg: hsl(176, 94%, 94%);
+$body-bg: white;
+$body-color: black;
+$headings-color: transparent !default; // because we're texturing them
+$link-color: #42affa;
+
+$theme-red: #ff0000b3;
+$theme-orange: #cc6600aa;
+$theme-yellow: #ff9900aa;
+$theme-seafoam: #00aa6699;
+$theme-emerald: #0077228f;
+$theme-lightblue: #0099ff99;
+$theme-darkblue: #0044ffa3;
+$theme-indigo: #4422ffaa;
+$theme-purple: #6611bbaa;
+$theme-pink: #ff0077aa;
+$theme-brown: #88440099;
+$theme-white: #ffffff;
+$theme-black: #050505;
+
+/*-- scss:rules --*/
+
+.reveal .slide-logo {
+  height: 10% !important;
+  width: 10% !important;
+  max-width: unset !important;
+  max-height: unset !important;
+}
+
+.reveal .footer {
+  display: block;
+  position: fixed;
+  bottom: 18px;
+  height: 10% !important;
+  width: 10% !important;
+  margin: 0px 0px;
+  text-align: right;
+  font-size: 18px;
+  z-index: 2;
+}
+
+
+
+h1, h2, h3, h4, h5, h6 {
+  // slide headers
+  .reveal .text-wash-red & { color: $theme-red }
+  .reveal .text-wash-orange & { color: $theme-orange }
+  .reveal .text-wash-yellow & { color: $theme-yellow }
+  .reveal .text-wash-seafoam & { color: $theme-seafoam }
+  .reveal .text-wash-emerald & { color: $theme-emerald }
+  .reveal .text-wash-lightblue & { color: $theme-lightblue }
+  .reveal .text-wash-darkblue & { color: $theme-darkblue }
+  .reveal .text-wash-indigo & { color: $theme-indigo }
+  .reveal .text-wash-purple & { color: $theme-purple }
+  .reveal .text-wash-pink & { color: $theme-pink }
+  .reveal .text-wash-brown & { color: $theme-brown }
+  .reveal .text-wash-black & { color: $theme-black }
+  .reveal .text-wash-white & { color: $theme-white }
+
+  .reveal .text-lime-cyan & {
+    background: linear-gradient(45deg, #00aadd, #66dd00);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .reveal .text-orange-gold & {
+    background: linear-gradient(45deg, #f37335, #fdc830);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .reveal .text-indigo-pink & {
+    background: linear-gradient(45deg, #4a00e0, #ff0099);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .reveal .text-red-brown & {
+    background: linear-gradient(45deg, #ed213a, #93291e);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .reveal .text-black-white & {
+    background: linear-gradient(45deg, #333, #ccc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+
+
+.reveal {
+  section {
+    h1, h2, h3, h4, h5, h6 {
+      // other headers
+      &.text-wash-red { color: $theme-red }
+      &.text-wash-orange { color: $theme-orange }
+      &.text-wash-yellow { color: $theme-yellow }
+      &.text-wash-seafoam { color: $theme-seafoam }
+      &.text-wash-emerald { color: $theme-emerald }
+      &.text-wash-lightblue { color: $theme-lightblue }
+      &.text-wash-darkblue { color: $theme-darkblue }
+      &.text-wash-indigo { color: $theme-indigo }
+      &.text-wash-purple { color: $theme-purple }
+      &.text-wash-pink { color: $theme-pink }
+      &.text-wash-brown { color: $theme-brown }
+      &.text-wash-black { color: $theme-black }
+      &.text-wash-white { color: $theme-white }
+
+      &.text-lime-cyan {
+        background: linear-gradient(45deg, #00aadd, #66dd00);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      &.text-orange-gold {
+        background: linear-gradient(45deg, #f37335, #fdc830);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      &.text-indigo-pink {
+        background: linear-gradient(45deg, #4a00e0, #ff0099);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      &.text-red-brown {
+        background: linear-gradient(45deg, #ed213a, #93291e);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      &.text-black-white {
+        background: linear-gradient(45deg, #333, #ccc);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+    }
+  }
+}
