@@ -1,3 +1,33 @@
 ---
 title: "Shiny app layouts"
 ---
+
+At its simplest, a Shiny app can be constructed from an empty box/container that stores all of the inputs and outputs. These will be placed in order from top to bottom of the window depending on how much space each component takes up. Below are examples from a Shiny for R [article](https://shiny.posit.co/r/articles/build/layout-guide/) on formatting layouts, where one example shows components added by row whereas the other is oriented as columns.
+
+![Row-oriented layout for Shiny app. Image: Posit](https://shiny.posit.co/r/articles/build/layout-guide/rows.png)
+
+![Column-oriented layout for Shiny app. Image: Posit](https://shiny.posit.co/r/articles/build/layout-guide/columns.png)
+
+**The main factor to consider when defining layouts for Shiny apps is that each row is comprised of 12 columns of equal width. So whenever a component is added that exceeds a value of 12 when including the preceding components, it is move to the next row down.** The below diagram shows a nice example of how these are constructed.
+
+![Multi-row layout diagram from [Mastering Shiny](https://mastering-shiny.org/action-layout.html#multi-row)](https://mastering-shiny.org/diagrams/action-layout/multirow.png)
+
+
+In each of these rows, we see that the total column width sums to 12. However, components will wrap around to the next row if they exceed 12 in total, as shown in the example below.
+
+![Multi-row layout after components exceed 12 column units. Image: [Posit](https://shiny.posit.co/r/articles/build/layout-guide/)](https://shiny.posit.co/r/articles/build/layout-guide/column-wrap.png)
+
+
+When constructed thoughtfully, apps can be customized into more complex layouts that include nested rows and columns like the example shown below.
+
+![Custom layout with nested columns and rows. Image: [Posit](https://shiny.posit.co/r/articles/build/layout-guide/)](https://shiny.posit.co/r/articles/build/layout-guide/mixed.png)
+
+
+Beyond the simple fillable layout, some of the common layouts that have more structure include sidebar layouts and multi-page layouts. Sidebar layouts are often used to physically partition text and input widgets from visualizations. Multi-page layouts separate content across multiple pages, which is useful when there are many visualizations to include, text-based descriptions of the app or underlying data, as well as separating out different pieces of a workflow. Example diagrams of each can be seen below.
+
+![Example of sidebar layout from [Mastering Shiny](https://mastering-shiny.org/action-layout.html#page-with-sidebar)](https://mastering-shiny.org/diagrams/action-layout/sidebar.png)
+
+![Example of multi-page layout from [`bslib`](https://rstudio.github.io/bslib/reference/navset.html#page-navbar-)](https://rstudio.github.io/bslib/reference/figures/page-navbar.png)
+
+
+For more information on designing Shiny UI layouts, refer to [Mastering Shiny](https://mastering-shiny.org/action-layout.html#multi-page-layouts) and [`{bslib}`](https://rstudio.github.io/bslib/articles/dashboards/index.html). To learn more about designing UI layouts via a user-friendly interface, look into using [ShinyUiEditor](https://rstudio.github.io/shinyuieditor/).

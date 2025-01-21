@@ -1,3 +1,20 @@
 ---
 title: "Outputs"
 ---
+
+As with the inputs, there are a number of different outputs that can be included in Shiny apps to visualize different types of data. Some of these outputs include static and interactive versions of plots, maps, and tables. Additionally, other outputs can include text, images, value boxes, and even reactive UI components. An example of these outputs can be seen in the screenshot below.
+
+[![A screenshot of outputs from the Posit website.](src/Shiny_outputs.png)](https://shiny.posit.co/r/components/)
+
+<br>
+
+These outputs are typically specified in the server side of the code by using an R function that begins as `render*()`, where the `*` would be replaced by 'Plot' for a simple plot or 'Table' for a simple table. If using interactive table and maps, each of these separate R packages likely have their own functions for adding input and output components to a Shiny app, such as `renderLeaflet()` for adding an interactive Leaflet map. Examples of other interactive components that could be added are found at the [`{htmlwidgets}`](https://www.htmlwidgets.org/showcase_leaflet.html) website.
+
+
+Related to outputs, there are additional Shiny components that include different types of messages such as modal dialog boxes, notifications, progress bars, and popovers. Examples of these can be seen in the screenshot below.
+
+[![A screenshot of messages from the Posit website.](src/Shiny_messages.png)](https://shiny.posit.co/r/components/)
+
+<br>
+
+Additional info on Shiny outputs and messages can be found from the [Shiny for R](https://shiny.posit.co/r/getstarted/shiny-basics/lesson4/) tutorial and the Shiny [components](https://shiny.posit.co/r/components/) page.

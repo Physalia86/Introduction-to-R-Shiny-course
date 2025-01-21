@@ -8,4 +8,4 @@ title: "Introduction to Shiny"
 {{< fa brands github size=2x >}} [GitHub repo folder](https://github.com/Physalia86/Introduction-to-R-Shiny-course/tree/main/Day1/R_examples) with example R scripts for creating Shiny apps
 
 
-There is a wide array of online materials that provide extensive descriptions of Shiny. Rather than reinvent the wheel, please refer to the list of resources from the [Materials](materials.qmd) page.
+There is a wide array of online materials that provide extensive descriptions of Shiny. Rather than reinvent the wheel, please refer to the list of resources from the [Materials](materials.qmd) page. The [Shiny for R](https://shiny.posit.co/r/getstarted/) tutorial and [Mastering Shiny](https://mastering-shiny.org) are good places to start.
