@@ -2,5 +2,92 @@
 title: "Theming and customization"
 ---
 
-While the default style of a Shiny app out-of-the-box looks much better than its predecessors when Shiny was first developed, it still very much looks quite plain and uninspired. To format the aesthetics of apps to better match a particular organization's color palette, or to simply make it look more professional, we should take a little extra time to customize the look and feel of the Shiny app. Below, I will share some examples of ways that we can customize the theme of our apps.
+While the default style of a Shiny app out-of-the-box looks much better than its predecessors when Shiny was first developed, it still very much looks quite plain and uninspired. To format the aesthetics of apps to better match a particular organization's color palette, or to simply make it look more professional, we should take a little extra time to customize the look and feel of our Shiny apps. Below, I will share some examples of ways that we can customize the theme, whether using presets or by selecting colors and styles on your own.
 
+![Screenshot of Shiny app with default {bslib} theme](src/default_bslib_theme.png){width="75%"}
+
+The preset themes that are available through `{bslib}` come from [Bootswatch](https://bootswatch.com), which currently includes 25 different light and dark themes. These can be applied as simply as using the `bs_theme()` function from `{bslib}`, as shown in the code below:
+
+```{r}
+#| eval: false
+
+ui <- page_sidebar(title = "My Shiny app",
+                   theme = bs_theme(preset = "flatly"),
+                   ...)
+```
+
+<br>
+This 'flatly' theme would produce an app that looks like the screenshot example below:
+
+![Screenshot of Shiny app with "flatly" Bootswatch theme](src/flatly_bslib_theme.png){width="75%"}
+
+<br>
+These themes can be explored using a built-in Shiny app from `{bslib}` using the `bs_theme_preview()` function, which includes a dropdown panel for customizing different aesthetics for the app. Additionally, these themes can be dynamically explored for your own Shiny app by adding `bs_themer()` to the server component of your app:
+
+```{r}
+#| eval: false
+
+server <- function(input, output, session) {
+  
+  # {bslib} widget to explore Bootswatch themes
+  bs_themer()
+  
+  ...
+}
+```
+
+<br>
+If wanting finer control over the colors, fonts, and font sizes, you can still achieve all of this using the `bs_theme()` function as opposed to needing to use CSS code directly. In place of specifying a Bootswatch preset, you would need to provide values for different components such as the background (bg) and foreground (fg) colors, accent colors (primary, secondary, success, warning, etc), as well as fonts (base, heading, code) that are either already available on your computer or that are available on Google Fonts (using `font_google()`). An example of these custom values are shown in the code below:
+
+```{r}
+#| eval: false
+library(bslib)
+
+ui <- page_navbar(
+  title = "Penguins dashboard",
+  theme = bs_theme(bg = "#101010",
+                   fg = "#FFF",
+                   primary = "#E69F00",
+                   secondary = "#0072B2",
+                   success = "#009E73",
+                   base_font = font_google("Inter"),
+                   code_font = font_google("JetBrains Mono")),
+  
+  ...
+)
+```
+
+<br>
+The use of theme presets or custom-defined themes are applied to all major components of the app's UI, with the most notable exception being plots. While the font styles and theme colors are impacted by the specified theme that was provided, this is not easily applied to plots (such as those created using `{ggplot2}`) since they are rendered separately. However, we can achieve this consistent styling across the entire Shiny app (including plots!) using the [`{thematic}`](https://rstudio.github.io/thematic/) package. By simply adding `thematic_shiny()` outside of the UI and server components, this will update the color palettes used by the provided theme. To ensure that the selected fonts are also applied to the plot, you need to specify `font = "auto"` as an argument within this function. It is also generally good practice to load the [`{showtext}`](https://cran.r-project.org/web/packages/showtext/vignettes/introduction.html) R package, which also helps with handling fonts when using `{thematic}`. An example is shown below:
+
+```{r}
+#| eval: false
+
+library(shiny)
+library(bslib)
+library(thematic)
+library(showtext)
+
+
+thematic_shiny(font = 'auto')  #make theme for ggplot2 consistent w/ app
+
+ui <- page_navbar(
+  ...
+)
+```
+
+<br>
+As compared to the screenshot above that used the "flatly" theme without using `{thematic}`, the below screenshots show examples of "flatly" when automatic theming with `{thematic}` is used, as well as an example when using a dark-mode theme. You can see that the fill colors for the density plot match the theme, and even the background of the plot is changed to black automatically without needing to adjust any `{ggplot2}` code.
+
+![Automatic theming of Shiny app using "flatly" theme](src/flatly_thematic.png){width="75%"}
+
+<br>
+
+![Automatic theming of Shiny app using dark theme](src/darkmode_thematic.png){width="75%"}
+
+<br>
+Additional information on custom theming for Shiny apps can be found at the webpages for [`bslib`](https://rstudio.github.io/bslib/articles/theming/index.html) and [`thematic`](https://rstudio.github.io/thematic/).
+
+<br>
+
+### Add exercises here
