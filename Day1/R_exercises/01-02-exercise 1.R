@@ -2,8 +2,8 @@
 ### Day 1, Section 2, Exercise 1
 
 # Using the simple example:
-#  1. Change format of text above histogram from an H3 header to bold text
-#  2. Add hyperlink (https://allisonhorst.github.io/palmerpenguins/) to the word "Data" at the beginning of Line 51, and remove other text/hyperlink for "{palmerpenguins}" from bottom of sidebar
+#  1. Change format of text above histogram plot from an H3 header to bold text
+#  2. Add hyperlink (https://allisonhorst.github.io/palmerpenguins/) to the word "Data" at the beginning of Line 50, and remove other text/hyperlink for "{palmerpenguins}" from bottom of sidebar
 
 
 library(palmerpenguins)

@@ -45,7 +45,8 @@ server <- function(input, output, session) {
   # Create histogram based on selection from inputs
   output$_____ <- renderPlot({
     ggplot(penguins) +
-      geom_histogram(aes(!!input$variable), fill = "cadetblue", bins = input$bins) +
+      geom_histogram(aes(!!input$variable), color = "black", fill = "cadetblue",
+                     bins = input$bins) +
       theme_bw(base_size = 20)
   })
   

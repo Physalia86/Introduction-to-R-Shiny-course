@@ -3,9 +3,9 @@
 ### Day 1, Section 6, Exercise 2
 
 # Using the below example:
-#  1. Add plots to cards that include the species name in the header and islands where present in the footer
+#  1. Add plots to cards that include a) the species name in the header and b) islands occupied in the footer
 #  2. Arrange the plots so that the Chinstrap and Gentoo are in the first row and have equal width, whereas the Adelie plot is on the second row and takes up the left two-thirds.
-#  3. Add a table using functions from {DT} to the second row on the right, taking up the remaining one-third
+#  3. Add a table of full penguins dataset using functions from {DT} to the second row on the right, taking up the remaining one-third
 
 library(palmerpenguins)
 library(ggplot2)

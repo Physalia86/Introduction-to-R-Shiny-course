@@ -2,8 +2,8 @@
 ### Day 1, Section 3, Exercise 2
 
 # Using the simple example:
-#  1. Create reactive value for the number of bins used for histogram
-#  2. Add number of bins to title of figure
+#  1. Create reactive value for the binwidth used in histogram (by species and variable)
+#  2. Add binwidth to title of figure
 
 
 library(palmerpenguins)

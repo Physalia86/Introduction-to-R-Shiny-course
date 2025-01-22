@@ -1,3 +1,6 @@
 ---
 title: "Theming and customization"
 ---
+
+While the default style of a Shiny app out-of-the-box looks much better than its predecessors when Shiny was first developed, it still very much looks quite plain and uninspired. To format the aesthetics of apps to better match a particular organization's color palette, or to simply make it look more professional, we should take a little extra time to customize the look and feel of the Shiny app. Below, I will share some examples of ways that we can customize the theme of our apps.
+

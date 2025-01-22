@@ -3,11 +3,11 @@
 ### Day 1, Section 4, Exercise 1
 
 # Using the below example:
-#  1. Change the input widget from species to Checkbox Group
+#  1. Change the input widget for species from a dropdown menu to checkbox group
 #  2. Add a radio button widget that also filters the penguins dataset by year (in addition to species)
 
 library(palmerpenguins)
-library(ggplot2)
+library(tidyverse)
 library(shiny)
 library(bslib)
 library(DT)

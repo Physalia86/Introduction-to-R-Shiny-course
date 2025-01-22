@@ -147,3 +147,397 @@ server <- function(input, output, session) {
 <br><br>
 
 For more information on reactivity in Shiny apps, please refer to descriptions and examples from [Mastering Shiny](https://mastering-shiny.org/basic-reactivity.html) as well as the [Shiny for R](https://shiny.posit.co/r/getstarted/build-an-app/reactivity-essentials/reactive-elements.html) tutorial.
+
+<br>
+
+## Exercise 1 {.unnumbered}
+
+::: {.callout-note collapse=false}
+## Code for Exercise 1
+
+```{r}
+#| eval: false
+library(palmerpenguins)
+library(dplyr)
+library(ggplot2)
+library(shiny)
+library(bslib)
+
+
+#################
+### Define UI ###
+#################
+
+ui <- page_sidebar(
+  title = h1("Penguins dashboard"),
+  
+  # Define sidebar inputs
+  sidebar = sidebar(
+    title = strong("Histogram controls"),
+    
+    #create dropdown selection for numeric columns
+    varSelectInput(
+      inputId = "var",
+      label = "Select variable",
+      data = dplyr::select_if(penguins, is.numeric)
+    ),
+    
+    radioButtons(inputId = "spp",
+                 label = "Select a species",
+                 choices = unique(penguins$species)
+    ),
+    
+    #create slider input for histogram
+    sliderInput("bins",
+                "Number of bins",
+                min = 3,
+                max = 100,
+                value = 30,
+                step = 1),
+    
+    
+    hr(),  #add horizontal line
+    
+    # Artwork from Allison Horst
+    tags$figure(
+      img(src = "https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png",
+          width = "100%"),
+      tags$figcaption(em("Artwork by @allison_horst"))
+    )
+  ),
+  
+  # Main panel content
+  h3("Exploration of Palmer penguins data"),
+  
+  plotOutput("hist")
+  
+)
+
+
+
+#####################
+### Define server ###
+#####################
+
+server <- function(input, output, session) {
+  
+  # Create histogram based on selection from inputs
+  output$hist <- renderPlot({
+    ggplot(penguins[penguins$species == input$spp,]) +
+      geom_histogram(aes(!!input$var), color = "black", fill = "cadetblue",
+                     bins = input$bins) +
+      theme_bw(base_size = 20)
+  })
+  
+}
+
+
+###############
+### Run app ###
+###############
+
+shinyApp(ui, server)
+
+```
+:::
+
+Using the included code:
+
+ 1. Filter penguins dataset via a reactive object instead of current approach on first line of ggplot code
+
+
+::: {.callout-tip collapse=true}
+## Solution for Exercise 1
+
+```{r}
+#| eval: false
+library(palmerpenguins)
+library(dplyr)
+library(ggplot2)
+library(shiny)
+library(bslib)
+
+
+#################
+### Define UI ###
+#################
+
+ui <- page_sidebar(
+  title = h1("Penguins dashboard"),
+  
+  # Define sidebar inputs
+  sidebar = sidebar(
+    title = strong("Histogram controls"),
+    
+    #create dropdown selection for numeric columns
+    varSelectInput(
+      inputId = "var",
+      label = "Select variable",
+      data = dplyr::select_if(penguins, is.numeric)
+    ),
+    
+    radioButtons(inputId = "spp",
+                 label = "Select a species",
+                 choices = unique(penguins$species)
+    ),
+    
+    #create slider input for histogram
+    sliderInput("bins",
+                "Number of bins",
+                min = 3,
+                max = 100,
+                value = 30,
+                step = 1),
+    
+    
+    hr(),  #add horizontal line
+    
+    # Artwork from Allison Horst
+    tags$figure(
+      img(src = "https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png",
+          width = "100%"),
+      tags$figcaption(em("Artwork by @allison_horst"))
+    )
+  ),
+  
+  # Main panel content
+  h3("Exploration of Palmer penguins data"),
+  
+  plotOutput("hist")
+  
+)
+
+
+
+#####################
+### Define server ###
+#####################
+
+server <- function(input, output, session) {
+  
+  # Create reactive object
+  penguins_filt <- reactive({
+    penguins |> 
+      filter(species == input$spp)
+  })
+  
+  # Create histogram based on selection from inputs
+  output$hist <- renderPlot({
+    ggplot(penguins_filt()) +
+      geom_histogram(aes(!!input$var), color = "black", fill = "cadetblue",
+                     bins = input$bins) +
+      theme_bw(base_size = 20)
+  })
+  
+}
+
+
+###############
+### Run app ###
+###############
+
+shinyApp(ui, server)
+
+```
+:::
+
+
+<br>
+
+## Exercise 2 {.unnumbered}
+
+::: {.callout-note collapse=false}
+## Code for Exercise 2
+
+```{r}
+#| eval: false
+library(palmerpenguins)
+library(ggplot2)
+library(shiny)
+library(bslib)
+
+
+#################
+### Define UI ###
+#################
+
+ui <- page_sidebar(
+  title = h1("Penguins dashboard"),
+  
+  # Define sidebar inputs
+  sidebar = sidebar(
+    title = strong("Histogram controls"),
+    
+    #create dropdown selection for numeric columns
+    varSelectInput(
+      inputId = "var",
+      label = "Select variable",
+      data = dplyr::select_if(penguins, is.numeric)
+    ),
+    
+    radioButtons(inputId = "spp",
+                 label = "Select a species",
+                 choices = unique(penguins$species)
+    ),
+    
+    #create slider input for histogram
+    sliderInput("bins",
+                "Number of bins",
+                min = 3,
+                max = 100,
+                value = 30,
+                step = 1),
+    
+    
+    hr(),  #add horizontal line
+    
+    # Artwork from Allison Horst
+    tags$figure(
+      img(src = "https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png",
+          width = "100%"),
+      tags$figcaption(em("Artwork by @allison_horst"))
+    )
+  ),
+  
+  # Main panel content
+  h3("Exploration of Palmer penguins data"),
+  
+  plotOutput("hist")
+  
+)
+
+
+
+#####################
+### Define server ###
+#####################
+
+server <- function(input, output, session) {
+  
+  # Create histogram based on selection from inputs
+  output$hist <- renderPlot({
+    ggplot(penguins[penguins$species == input$spp,]) +
+      geom_histogram(aes(!!input$var), fill = "cadetblue", bins = input$bins) +
+      theme_bw(base_size = 20)
+  })
+  
+}
+
+
+###############
+### Run app ###
+###############
+
+shinyApp(ui, server)
+
+
+```
+:::
+
+Using the included code:
+
+ 1. Create reactive value for the binwidth used in histogram (by species and variable)
+ 2. Add binwidth to title of figure
+
+
+::: {.callout-tip collapse=true}
+## Solution for Exercise 2
+
+```{r}
+#| eval: false
+library(palmerpenguins)
+library(ggplot2)
+library(shiny)
+library(bslib)
+
+
+#################
+### Define UI ###
+#################
+
+ui <- page_sidebar(
+  title = h1("Penguins dashboard"),
+  
+  # Define sidebar inputs
+  sidebar = sidebar(
+    title = strong("Histogram controls"),
+    
+    #create dropdown selection for numeric columns
+    varSelectInput(
+      inputId = "var",
+      label = "Select variable",
+      data = dplyr::select_if(penguins, is.numeric)
+    ),
+    
+    radioButtons(inputId = "spp",
+                 label = "Select a species",
+                 choices = unique(penguins$species)
+    ),
+    
+    #create slider input for histogram
+    sliderInput("bins",
+                "Number of bins",
+                min = 3,
+                max = 100,
+                value = 30,
+                step = 1),
+    
+    
+    hr(),  #add horizontal line
+    
+    # Artwork from Allison Horst
+    tags$figure(
+      img(src = "https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png",
+          width = "100%"),
+      tags$figcaption(em("Artwork by @allison_horst"))
+    )
+  ),
+  
+  # Main panel content
+  h3("Exploration of Palmer penguins data"),
+  
+  plotOutput("hist")
+  
+)
+
+
+
+#####################
+### Define server ###
+#####################
+
+server <- function(input, output, session) {
+  
+  # Create reactive value for sample size of dataset
+  r <- reactiveValues(binwidth = 0)
+  
+  # Update reactiveValue for sample size based on penguins_filt
+  observe({
+    req(input$bins)  #ensure/require that reactive object is available before proceeding
+    
+    # Define min and max values for selected variable by species
+    min_var <- min(penguins[penguins$species == input$spp, input$var], na.rm = TRUE)
+    max_var <- max(penguins[penguins$species == input$spp, input$var], na.rm = TRUE)
+    r$binwidth <- round((max_var - min_var) / input$bins, 3)  #update reactive value
+  })
+  
+  # Create histogram based on selection from inputs
+  output$hist <- renderPlot({
+    ggplot(penguins[penguins$species == input$spp,]) +
+      geom_histogram(aes(!!input$var), fill = "cadetblue", bins = input$bins) +
+      labs(title = paste("Histogram binwidth is", r$binwidth)) +  #reactive value used in title
+      theme_bw(base_size = 20)
+  })
+  
+}
+
+
+###############
+### Run app ###
+###############
+
+shinyApp(ui, server)
+
+
+```
+:::

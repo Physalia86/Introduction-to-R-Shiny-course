@@ -8,8 +8,7 @@
 #  2. Change notification to specify the current variable plotted on the x-axis and change `type` to "warning" from "message", where the variable name is in bold
 
 library(palmerpenguins)
-library(ggplot2)
-library(dplyr)
+library(tidyverse)
 library(shiny)
 library(bslib)
 library(bsicons)
@@ -64,12 +63,6 @@ ui <- page_sidebar(
       selected = "body_mass_g"
     ),
     
-    # Add image w/ hyperlink
-    a(href = "https://pallter.marine.rutgers.edu",  #add hyperlink
-      img(src = "Palmer_LTER_logo.png",  #add image from local directory (in www/ folder)
-          width = "80%",
-          style = "display: block; margin-left: auto; margin-right: auto;")  #to align image to center
-    ),
     
     # Add reactive text that summarizes 'species' selection
     htmlOutput("txt")

@@ -2,10 +2,11 @@
 ### Day 1, Section 3, Exercise 1
 
 # Using the simple example:
-#  1. Filter penguins dataset via a reactive object instead of current approach on Line 77
+#  1. Filter penguins dataset via a reactive object instead of current approach on Line 73
 
 
 library(palmerpenguins)
+library(dplyr)
 library(ggplot2)
 library(shiny)
 library(bslib)
