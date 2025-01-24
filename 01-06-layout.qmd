@@ -31,6 +31,7 @@ Beyond the simple fillable layout, some of the common layouts that have more str
 ![Example of sidebar layout from [Mastering Shiny](https://mastering-shiny.org/action-layout.html#page-with-sidebar)](https://mastering-shiny.org/diagrams/action-layout/sidebar.png){width="75%"}
 
 <br>
+
 ![Example of multi-page layout from [`bslib`](https://rstudio.github.io/bslib/reference/navset.html#page-navbar-)](https://rstudio.github.io/bslib/reference/figures/page-navbar.png){width="75%"}
 
 <br>
