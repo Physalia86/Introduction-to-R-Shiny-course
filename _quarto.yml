@@ -25,9 +25,6 @@ book:
         - 02-01-theming-customization.qmd
         - 02-02-leaflet.qmd
         - 02-03-deploy.qmd
-    - references.qmd
-
-bibliography: references.bib
 
 format:
   html:

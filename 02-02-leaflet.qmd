@@ -1,3 +1,676 @@
 ---
 title: "Interactive mapping with Leaflet"
 ---
+
+While not apart of `{shiny}`, many people working in the environmental sciences use maps to display study areas, sampling locations, geospatial model predictions, environmental layers, and more. While this could technically be achieved using static map layers with standard R plotting options, it is often much more difficult to explore these spatial layers in greater detail. By using interactive mapping options built upon JavaScript libraries such as Leaflet, we can explore and present data dynamically. This can be even more powerful if integrating Leaflet (via the `{leaflet}` R package) with Shiny. The examples provided below show different layers and features that can be used within a standard Leaflet map, as well as ways to integrate within a Shiny app to extend interactivity even further.
+
+## Creating a simple Leaflet map
+
+At it's simplest, a basic Leaflet map can be created using 2 lines of code:
+
+```{.r code-line-numbers="|3|4"}
+library(leaflet)
+
+leaflet() |>     # <1>
+  addTiles()     # <2>
+```
+1. Function to initialize Leaflet map
+2. Function to add simple OpenStreetMap (OSM) basemap layer
+
+```{r}
+#| echo: false
+library(leaflet)
+
+leaflet() |>     # <1>
+  addTiles()     # <2>
+```
+
+<br>
+where different options for displaying the map are added by using a "pipe" operator, such as the base R pipe (`|>`) available in R versions 4.0.0+, or the `{magrittr}` pipe (`%>%`) that's available when loading `{magrittr}`, `{dplyr}`, or `{tidyverse}`. A wide range of basemaps can be chosen from and applied using the `addProviderTiles()` function, where the argument `provider` is specified using one of the basemaps available from the `providers` object:
+
+```{r}
+head(providers, n = 10)
+
+leaflet() |> 
+  addProviderTiles(provider = providers$Esri.WorldImagery) |> 
+  setView(lat = 40, lng = -85, zoom = 3)
+```
+
+<br>
+Additionally, there may be some instances where it's useful to have multiple basemaps available for different purposes (such as political boundaries, roads and places of interest, as well as satellite imagery). This can be accomplished through the addition of multiple calls of `addProviderTiles` and the use of the `layersControlOptions()` function to manage the layer menu.
+
+```{r}
+leaflet() |> 
+  addProviderTiles(provider = providers$CartoDB.Positron, group = "CartoDB") |> 
+  addProviderTiles(provider = providers$Esri.WorldImagery, group = "Satellite") |>
+  addProviderTiles(provider = providers$OpenStreetMap, group = "OSM") |>
+  addLayersControl(position = "topright", baseGroups = c("CartoDB", "Satellite", "OSM")) |> 
+  setView(lat = 40, lng = -85, zoom = 3)
+```
+
+
+## Adding vector layers
+
+As with other GIS software, a variety of vector spatial layers can be added to Leaflet maps, including points, lines and polygons. Moreover, there are additional options when mapping markers/points, such as using icons or creating marker clusters for points near each other. These spatial layers can be either `{sf}` objects, `{map}`
+objects, or `data.frame` objects that include longitude and latitude.
+
+As an example, let's add points (via `addCircleMarkers()`) and polygons (via `addPolygons()`) to a map to show how these can be specified. Additional information on adding and customizing [markers](https://rstudio.github.io/leaflet/articles/markers.html) and [polygons](https://rstudio.github.io/leaflet/articles/shapes.html) provide additional information and examples for adding these layers and including labels upon hovering or popups upon clicking spatial features.
+
+```{.r code-line-numbers="|12|18|19|20|21-22|27"}
+library(rnaturalearth)
+library(sf)
+
+# Load polygon layers
+ca <- rnaturalearth::ne_states(country = "Canada", returnclass = "sf")
+
+# Simulate fake locations to map
+pts <- data.frame(lon = runif(n = 50, min = -120, max = -70),
+                  lat = runif(n = 50, min = 50, max = 60))
+
+
+leaflet(ca) |>                                                                  # <1>
+  addProviderTiles(provider = providers$CartoDB.Positron, group = "CartoDB") |> 
+  addProviderTiles(provider = providers$Esri.WorldImagery, group = "Satellite") |>
+  addProviderTiles(provider = providers$OpenStreetMap, group = "OSM") |>
+  addLayersControl(position = "topright",
+                   baseGroups = c("CartoDB", "Satellite", "OSM"),
+                   overlayGroups = c("provinces", "pts")) |>                    # <2>
+  addPolygons(group = "provinces") |>                                           # <3>
+  addCircleMarkers(data = pts,                                                  # <4>
+                   lng = ~lon,                                                  # <5>
+                   lat = ~lat,                                                  # <5>
+                   fillColor = "black",
+                   fillOpacity = 1,
+                   radius = 3,
+                   stroke = FALSE,
+                   group = "pts")                                               # <6>
+```
+1. You can optionally add a spatial object to the `leaflet()` function at the beginning, which will then be applied to the `addPolygons()` function in this case. Leaflet uses the spatial extent of this layer to set its own center location and zoom level.
+2. In order to toggle spatial layers on/off, make sure to add these group names to `overlayGroups`.
+3. Define group name for polygon layer, which is included in `addLayersControl()` to `overlayGroups`.
+4. Alternatively (and for any other datasets), you'll need to define these within the function using the `data` argument.
+5. When supplying columns from a non-spatial object (such as a `data.frame` or other columns of an `sf` object), you can specify these using the `~` symbol before the name of the column (without quotation marks).
+6. Group name is also defined for the circle marker layer
+
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+library(rnaturalearth)
+library(sf)
+
+# Load polygon layers
+ca <- rnaturalearth::ne_states(country = "Canada", returnclass = "sf")
+
+# Simulate fake locations to map
+pts <- data.frame(lon = runif(n = 50, min = -120, max = -70),
+                  lat = runif(n = 50, min = 50, max = 60))
+
+
+leaflet(ca) |> 
+  addProviderTiles(provider = providers$CartoDB.Positron, group = "CartoDB") |> 
+  addProviderTiles(provider = providers$Esri.WorldImagery, group = "Satellite") |>
+  addProviderTiles(provider = providers$OpenStreetMap, group = "OSM") |>
+  addLayersControl(position = "topright",
+                   baseGroups = c("CartoDB", "Satellite", "OSM"),
+                   overlayGroups = c("provinces", "pts")) |> 
+  addPolygons(group = "provinces") |> 
+  addCircleMarkers(data = pts,
+                   lng = ~lon,
+                   lat = ~lat,
+                   fillColor = "black",
+                   fillOpacity = 1,
+                   radius = 3,
+                   stroke = FALSE,
+                   group = "pts")
+```
+
+
+## Adding raster layers
+
+We can also add raster layers to Leaflet maps as well. Currently, the latest version of `{leaflet}` (v2.2.2) now supports `SpatRaster` layers from `{terra}`, while also still supporting `RasterLayer` objects from `{raster}`. Given that `{raster}` is no longer maintained and will eventually be deprecated due to its outdated dependencies, it is recommended to use `{terra}` SpatRasters for these raster layers. An example layer is mapped below, but additional information on customizing the appearance of these layers can be found on the [`{leaflet}`](https://rstudio.github.io/leaflet/articles/raster.html) website.
+
+```{r}
+#| message: false
+#| warning: false
+#| eval: false
+
+library(terra)
+
+# Read sea surface temperature layer from NOAA THREDDS server (using data from 1 Jan 2025)
+r <- rast("https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/sst.day.mean.2025.nc")[[1]]
+r <- crop(r, ext(280, 300, 35, 50))
+
+# Define color palette for raster layer
+pal <- colorNumeric("inferno", domain = values(r), na.color = "transparent")
+
+leaflet() |> 
+  addProviderTiles(provider = providers$CartoDB.DarkMatter, group = "CartoDB") |> 
+  addLayersControl(position = "topright",
+                   baseGroups = "CartoDB",
+                   overlayGroups = "SST") |> 
+  addRasterImage(r, colors = pal, opacity = 0.8, group = "SST") |> 
+  addLegend(title = "SST (&deg;C)", position = "bottomright", pal = pal, values = values(r))
+```
+
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+library(terra)
+
+# Read sea surface temperature layer from local file
+r <- rast("src/sst.tiff")
+
+# Define color palette for raster layer
+pal <- colorNumeric("inferno", domain = values(r), na.color = "transparent")
+
+leaflet() |> 
+  addProviderTiles(provider = providers$CartoDB.DarkMatter, group = "CartoDB") |> 
+  addLayersControl(position = "topright",
+                   baseGroups = "CartoDB",
+                   overlayGroups = "SST") |> 
+  addRasterImage(r, colors = pal, opacity = 0.8, group = "SST") |> 
+  addLegend(title = "SST (&deg;C)", position = "bottomright", pal = pal, values = values(r))
+```
+
+
+## Integrating in Shiny app
+
+While Leaflet maps have plenty of interactive functionality on their own (due to the underlying JavaScript code), there are still some other features that aren't available, such as performing any geoprocessing steps or dynamically updating certain layers to view at a time (without overloading the map). Functions from `{leaflet}` make this relatively easy to accomplish, for which the standard function for adding a Leaflet map to the UI is `leafletOutput()`, whereas the function to store the Leaflet map on the server side is `renderLeaflet()`. However, there is a small wrinkle where an additional function (`leafletProxy()`) is required for updating reactive components of the map based on Shiny input widgets. A simple example is shown below on how to easily integrate an interactive Leaflet map into a Shiny app.
+
+```{.r code-line-numbers="|26|36|59"}
+library(shiny)
+library(bslib)
+library(leaflet)
+library(terra)
+
+# Read sea surface temperature layer from NOAA THREDDS server (using data from 1 - 10 Jan 2025)
+r <- rast("https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/sst.day.mean.2025.nc")[[1:10]]
+r <- crop(r, ext(280, 300, 35, 50))
+
+
+
+##########
+### UI ###
+##########
+
+ui <- page_sidebar(title = "Sea surface temperature in Northwest Atlantic",
+                   theme = bs_theme(bootswatch = "flatly"),
+                   
+                   sidebar = sidebar(
+                     selectInput("date",
+                                 "Choose a date:",
+                                 choices = time(r),
+                                 selected = time(r)[1])
+                   ),
+                   
+                   leafletOutput("map")                                    # <1>
+                   )
+
+
+##############
+### Server ###
+##############
+
+server <- function(input, output, session) {
+  
+  output$map <- renderLeaflet({                                           # <2>
+    leaflet() |> 
+      setView(lng = mean(ext(r[[1]])[1:2]),
+              lat = mean(ext(r[[1]])[3:4]),
+              zoom = 5) |> 
+      addProviderTiles(provider = providers$Esri.OceanBasemap, group = "Ocean") |> 
+      addLayersControl(position = "topright",
+                       baseGroups = "Ocean",
+                       overlayGroups = "SST")
+  })
+
+
+# Create reactive SpatRaster
+sst <- reactive({
+  r[[time(r) == input$date]]
+})
+
+
+observe({
+  
+  # Define color palette for raster layer
+  pal <- colorNumeric("inferno", domain = values(sst()),
+    na.color = "transparent")
+  
+  leafletProxy("map") |>                                                  # <3>
+    clearControls() |> 
+    clearImages() |> 
+    addRasterImage(sst(), colors = pal, opacity = 0.8, group = "SST") |> 
+    addLegend(title = "SST (&deg;C)", position = "bottomright", pal = pal,
+              values = values(sst()))
+  
+})
+
+}
+
+
+###############
+### Run app ###
+###############
+
+shinyApp(ui, server)
+```
+1. Place Leaflet map on UI
+2. Render "static" version of Leaflet map that is not reactive
+3. Update base version of Leaflet map with reactive elements
+
+
+For additional information on adding layers to Leaflet maps and customizing the look and feel of these elements, please visit the [`{leaflet}`](https://rstudio.github.io/leaflet/) website. You can look through this [webpage](https://rstudio.github.io/leaflet/articles/shiny.html) specifically for more information on integrating with Shiny.
+
+
+<br>
+
+## Exercise 1 {.unnumbered}
+
+::: {.callout-note collapse=false}
+## Code for Exercise 1
+
+```{r}
+#| eval: false
+library(tidyverse)
+library(terra)
+library(sf)
+library(leaflet)  #v2.2.2 (CRAN)
+library(leafem)  #v0.2.3.9006 (GitHub)
+library(viridis)
+library(shiny)
+library(shinyWidgets)
+
+source("../R_examples/leaflet_utils.R")  #for function addLegend_decreasing
+
+
+
+#################
+### Load data ###
+#################
+
+# Simulated tracks
+tracks <- read_csv("../R_examples/data/Simulated tracks.csv")
+tracks.sf <- tracks |>
+  st_as_sf(coords = c('x','y'), crs = 4326)
+tracks.sf2 <- tracks.sf |>
+  group_by(id) |>
+  summarize(do_union = FALSE) |>
+  st_cast("MULTILINESTRING")
+
+# Monthly SST (2021)
+sst <- read_csv("../R_examples/data/Monthly_SST_2021.csv")
+sst.rast <- sst |>
+  split(~month) |>
+  purrr::map(~rast(.x[,c('x','y','sst')], type = "xyz", crs = "EPSG:4326")) |>
+  rast()
+
+# Offshore wind leases
+wind <- st_read("../R_examples/data/NE_Offshore_Wind.shp")
+wind$State <- gsub(pattern = "Massachussets", "Massachusetts", wind$State)  #fix typo
+
+
+# Define color palettes
+tracks.pal <- colorFactor("Dark2", factor(tracks$id))
+poly.pal <- colorFactor("Set3", factor(wind$State))
+
+sst.range <- range(as.vector(values(sst.rast)), na.rm = TRUE)
+rast.pal2 <- colorNumeric('magma',
+                          domain = sst.range,
+                          na.color = "transparent")
+
+
+##########
+### UI ###
+##########
+
+ui <- fluidPage(title = "Animal Movement, Offshore Wind Development, and SST",
+                
+                leafletOutput("mymap", width = "100%", height = "850px"),
+                
+                absolutePanel(class = "panel panel-default",
+                              top = 300,
+                              left = 25,
+                              width = 250,
+                              fixed = TRUE,
+                              draggable = TRUE,
+                              height = "auto",
+                              
+                              h3("Choose which layers to map"),
+                              pickerInput(inputId = "tracks",
+                                          label = "Select tracks",
+                                          choices = unique(tracks$id),
+                                          selected = unique(tracks$id),
+                                          multiple = TRUE),
+                              pickerInput(inputId = "polygons",
+                                          label = "Select polygons by state",
+                                          choices = unique(wind$State),
+                                          selected = unique(wind$State),
+                                          multiple = TRUE),
+                              selectInput(inputId = "raster",
+                                          label = "Select month of SST",
+                                          choices = month.abb,
+                                          selected = month.abb[1])
+                              
+                )  #close absolutePanel
+                
+)  #close fluidPage
+
+
+
+
+
+##############
+### Server ###
+##############
+
+server <- function(input, output, session) {
+  
+  #Create reactive objects based on selected input
+  tracks.out <- reactive({
+    tracks.sf2 |>
+      filter(id %in% input$tracks)
+  })
+  
+  wind.out <- reactive({
+    wind |>
+      filter(State %in% input$polygons)
+  })
+  
+  sst.out <- reactive({
+    sst.rast[[which(names(sst.rast) == input$raster)]]
+  })
+  
+  
+  
+  
+  ## Create map w/ non-reactive components
+  output$mymap <- renderLeaflet({
+    
+    
+    ## Static Leaflet basemap and widgets
+    leaflet() |>
+      setView(lng = -73, lat = 41.5, zoom = 6) |>
+      addProviderTiles(provider = providers$Esri.OceanBasemap, group = "Ocean Basemap",
+                       options = providerTileOptions(zIndex = -10)) |>
+      addProviderTiles(provider = providers$Esri.WorldImagery, group = "World Imagery",
+                       options = providerTileOptions(zIndex = -10)) |>
+      addProviderTiles(provider = providers$OpenStreetMap, group = "Open Street Map",
+                       options = providerTileOptions(zIndex = -10)) |>
+      addLayersControl(baseGroups = c("Ocean Basemap", "World Imagery", "Open Street Map"),
+                       overlayGroups = c("SST", "Offshore Wind Leases", "Tracks"),
+                       options = layersControlOptions(collapsed = TRUE, autoZIndex = FALSE),
+                       position = "bottomleft") |>
+      addScaleBar(position = "bottomright") |>
+      addMeasure(position = "topleft",
+                 primaryLengthUnit = "kilometers",
+                 primaryAreaUnit = "hectares",
+                 activeColor = "#3D535D",
+                 completedColor = "#7D4479") |>
+      addMouseCoordinates()
+    
+  })  #close renderLeaflet
+  
+  
+  
+  ## Add reactive elements to Leaflet map
+  observe({
+    
+    leafletProxy(mapId = "mymap") |>
+      clearMarkers() |>
+      clearShapes() |>
+      clearImages() |>
+      clearControls() |>
+      addRasterImage(x = sst.out(),
+                     colors = rast.pal2,
+                     opacity = 1,
+                     group = "SST") |>
+      addImageQuery(sst.out(), group = "SST") |>  #add raster  query
+      addLegend_decreasing(pal = rast.pal2,
+                           values = as.vector(values(sst.rast)),
+                           title = "SST (\u00B0C)",
+                           decreasing = TRUE) |>
+      addPolygons(data = wind.out(),
+                  color = ~poly.pal(State),
+                  fillOpacity = 1,
+                  stroke = FALSE,
+                  label = ~paste0("State: ", State),
+                  group = "Offshore Wind Leases") |>
+      addLegend(pal = poly.pal,
+                values = wind.out()$State,
+                title = "State",
+                opacity = 1) |>
+      addPolylines(data = tracks.out(),
+                   color = ~tracks.pal(id),
+                   opacity = 0.75,
+                   weight = 2,
+                   label = ~paste0("ID: ", id),
+                   group = "Tracks") |>
+      addLegend(pal = tracks.pal,
+                values = tracks.out()$id,
+                title = "ID",
+                position = "topleft")
+    
+  })  #close observe
+  
+}  #close server function
+
+
+
+
+
+###############
+### Run app ###
+###############
+
+shinyApp(ui = ui, server = server)
+
+```
+:::
+
+Using the included code:
+
+ 1. Convert app to a sidebar layout from the fluidPage layout with absolute panel
+ 2. Change the linewidth of the tracks to a value of 4
+ 3. Change the color palette variable from 'State' to 'Shape_Area', use the 'viridis' palette from `{viridis}`, and updated the legend title while showing values in decreasing order
+ 
+
+::: {.callout-tip collapse=true}
+## Solution for Exercise 1
+
+```{r}
+#| eval: false
+library(tidyverse)
+library(terra)
+library(sf)
+library(leaflet)  #v2.2.2 (CRAN)
+library(leafem)  #v0.2.3.9006 (GitHub)
+library(viridis)
+library(shiny)
+library(shinyWidgets)
+library(bslib)
+
+source("../R_examples/leaflet_utils.R")  #for function addLegend_decreasing
+
+
+
+#################
+### Load data ###
+#################
+
+# Simulated tracks
+tracks <- read_csv("../R_examples/data/Simulated tracks.csv")
+tracks.sf <- tracks |>
+  st_as_sf(coords = c('x','y'), crs = 4326)
+tracks.sf2 <- tracks.sf |>
+  group_by(id) |>
+  summarize(do_union = FALSE) |>
+  st_cast("MULTILINESTRING")
+
+# Monthly SST (2021)
+sst <- read_csv("../R_examples/data/Monthly_SST_2021.csv")
+sst.rast <- sst |>
+  split(~month) |>
+  purrr::map(~rast(.x[,c('x','y','sst')], type = "xyz", crs = "EPSG:4326")) |>
+  rast()
+
+# Offshore wind leases
+wind <- st_read("../R_examples/data/NE_Offshore_Wind.shp")
+wind$State <- gsub(pattern = "Massachussets", "Massachusetts", wind$State)  #fix typo
+
+
+# Define color palettes
+tracks.pal <- colorFactor("Dark2", factor(tracks$id))
+poly.pal <- colorNumeric("viridis", wind$Shape_Area)
+
+sst.range <- range(as.vector(values(sst.rast)), na.rm = TRUE)
+rast.pal2 <- colorNumeric('magma',
+                          domain = sst.range,
+                          na.color = "transparent")
+
+
+##########
+### UI ###
+##########
+
+ui <- page_sidebar(title = "Animal Movement, Offshore Wind Development, and SST",
+
+                   sidebar = sidebar(title = h3("Choose which layers to map"),
+                                     width = 350,
+                                     
+                                     pickerInput(inputId = "tracks",
+                                                 label = "Select tracks",
+                                                 choices = unique(tracks$id),
+                                                 selected = unique(tracks$id),
+                                                 multiple = TRUE),
+                                     pickerInput(inputId = "polygons",
+                                                 label = "Select polygons by state",
+                                                 choices = unique(wind$State),
+                                                 selected = unique(wind$State),
+                                                 multiple = TRUE),
+                                     selectInput(inputId = "raster",
+                                                 label = "Select month of SST",
+                                                 choices = month.abb,
+                                                 selected = month.abb[1])
+                   ),
+                   
+                   leafletOutput("mymap", width = "100%", height = "850px")
+)  #close page_sidebar
+
+
+
+
+
+##############
+### Server ###
+##############
+
+server <- function(input, output, session) {
+  
+  #Create reactive objects based on selected input
+  tracks.out <- reactive({
+    tracks.sf2 |>
+      filter(id %in% input$tracks)
+  })
+  
+  wind.out <- reactive({
+    wind |>
+      filter(State %in% input$polygons)
+  })
+  
+  sst.out <- reactive({
+    sst.rast[[which(names(sst.rast) == input$raster)]]
+  })
+  
+  
+  
+  
+  ## Create map w/ non-reactive components
+  output$mymap <- renderLeaflet({
+    
+    
+    ## Static Leaflet basemap and widgets
+    leaflet() |>
+      setView(lng = -73, lat = 41.5, zoom = 6) |>
+      addProviderTiles(provider = providers$Esri.OceanBasemap, group = "Ocean Basemap",
+                       options = providerTileOptions(zIndex = -10)) |>
+      addProviderTiles(provider = providers$Esri.WorldImagery, group = "World Imagery",
+                       options = providerTileOptions(zIndex = -10)) |>
+      addProviderTiles(provider = providers$OpenStreetMap, group = "Open Street Map",
+                       options = providerTileOptions(zIndex = -10)) |>
+      addLayersControl(baseGroups = c("Ocean Basemap", "World Imagery", "Open Street Map"),
+                       overlayGroups = c("SST", "Offshore Wind Leases", "Tracks"),
+                       options = layersControlOptions(collapsed = TRUE, autoZIndex = FALSE),
+                       position = "bottomleft") |>
+      addScaleBar(position = "bottomright") |>
+      addMeasure(position = "topleft",
+                 primaryLengthUnit = "kilometers",
+                 primaryAreaUnit = "hectares",
+                 activeColor = "#3D535D",
+                 completedColor = "#7D4479") |>
+      addMouseCoordinates()
+    
+  })  #close renderLeaflet
+  
+  
+  
+  ## Add reactive elements to Leaflet map
+  observe({
+    
+    leafletProxy(mapId = "mymap") |>
+      clearMarkers() |>
+      clearShapes() |>
+      clearImages() |>
+      clearControls() |>
+      addRasterImage(x = sst.out(),
+                     colors = rast.pal2,
+                     opacity = 1,
+                     group = "SST") |>
+      addImageQuery(sst.out(), group = "SST") |>  #add raster  query
+      addLegend_decreasing(pal = rast.pal2,
+                           values = as.vector(values(sst.rast)),
+                           title = "SST (\u00B0C)",
+                           decreasing = TRUE) |>
+      addPolygons(data = wind.out(),
+                  color = ~poly.pal(Shape_Area),
+                  fillOpacity = 1,
+                  stroke = FALSE,
+                  label = ~paste0("Area: ", Shape_Area),
+                  group = "Offshore Wind Leases") |>
+      addLegend_decreasing(pal = poly.pal,
+                           values = wind.out()$Shape_Area,
+                           title = "Area (km<sup>2</sup>)",
+                           decreasing = TRUE,
+                           opacity = 1) |>
+      addPolylines(data = tracks.out(),
+                   color = ~tracks.pal(id),
+                   opacity = 0.75,
+                   weight = 4,
+                   label = ~paste0("ID: ", id),
+                   group = "Tracks") |>
+      addLegend(pal = tracks.pal,
+                values = tracks.out()$id,
+                title = "ID",
+                position = "topleft")
+    
+  })  #close observe
+  
+}  #close server function
+
+
+
+
+
+###############
+### Run app ###
+###############
+
+shinyApp(ui = ui, server = server)
+
+```
+:::
