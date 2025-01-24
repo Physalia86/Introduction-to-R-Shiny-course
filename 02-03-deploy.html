@@ -30,7 +30,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
 <link href="./02-02-leaflet.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -200,19 +199,22 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started"><span class="header-section-number">9.1</span> Getting started</a></li>
+  <li><a href="#connecting-your-shinyapps.io-account-with-rstudio" id="toc-connecting-your-shinyapps.io-account-with-rstudio" class="nav-link" data-scroll-target="#connecting-your-shinyapps.io-account-with-rstudio"><span class="header-section-number">9.2</span> Connecting your shinyapps.io account with RStudio</a></li>
+  <li><a href="#deploying-your-shiny-app" id="toc-deploying-your-shiny-app" class="nav-link" data-scroll-target="#deploying-your-shiny-app"><span class="header-section-number">9.3</span> Deploying your Shiny app</a></li>
+  <li><a href="#extra-different-formats-for-publishing" id="toc-extra-different-formats-for-publishing" class="nav-link" data-scroll-target="#extra-different-formats-for-publishing"><span class="header-section-number">9.4</span> Extra: different formats for publishing</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -236,8 +238,60 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Once you have created a Shiny app, often the next consideration is how this app should be shared with others. While there are a number of different options (e.g., <a href="https://shiny.posit.co/r/articles/share/deployment-web/">hosting online</a>, <a href="https://shiny.posit.co/r/articles/share/deployment-local/">running apps locally</a>, <a href="https://shiny.posit.co/r/articles/share/function/">saving app as a function</a>), the simplest way to make your app widely available is to deploy it to the <a href="https://www.shinyapps.io">shinyapps.io</a> website using servers hosted by <a href="https://posit.co">Posit</a>. Doing so is particularly easy since it:</p>
+<ol type="1">
+<li>requires minimal effort on the developer side to initially deploy and subsequently update Shiny apps</li>
+<li>can be deployed for <strong>free</strong> (with a few restrictions on number of apps and app usage)</li>
+<li>requires no knowledge of virtual environments/containters/etc commonly used for deploying web applications</li>
+</ol>
+<p>Additionally, it is freely available to users of your Shiny app once they can access the associated URL link. Therefore, the information provided below will focus on how to deploy your apps using shinyapps.io. But please visit the linked websites and the <a href="https://docs.posit.co/shinyapps.io/guide/">shinyapps.io User Guide</a>.</p>
+<section id="getting-started" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="getting-started"><span class="header-section-number">9.1</span> Getting started</h2>
+<p>To deploy a Shiny app from your local computer (ideally from the RStudio IDE), you’ll need to have the <code>{rsconnect}</code> package installed. If you haven’t already done so, you can install this package by running <code>install.packages("rsconnect")</code> in your console. Next, you’ll need to create an account on the <a href="https://www.shinyapps.io">shinyapps.io</a> website by clicking the “Sign Up” button. You can either provide your own email address and password, or directly link to an account through Google or GitHub. <em>If you already have a GitHub account that you use regularly, I recommend using this approach.</em> After signing up, you’ll be asked to create an account username. <strong>Thoughtfully select your username since this will be included in the URL of all future Shiny apps you deploy to shinyapps.io. So if apps are expected to be deployed for a lab group or on behalf of a government organization, it makes sense to choose a username that reflects the group or organization.</strong></p>
+</section>
+<section id="connecting-your-shinyapps.io-account-with-rstudio" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="connecting-your-shinyapps.io-account-with-rstudio"><span class="header-section-number">9.2</span> Connecting your shinyapps.io account with RStudio</h2>
+<p>We now need to connect the shinyapps.io account that was created with RStudio in order to deploy these apps to the proper place, which is where <code>{rsconnect}</code> comes in. To do so, click on your username in the upper right-hand corner of your account on the shinyapps.io website and then select “Tokens” from the dropdown menu.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://docs.posit.co/shinyapps.io/guide/images/tokens.png" class="img-fluid figure-img"></p>
+<figcaption>Example of how to access token for shinyapps.io account. Image: Posit</figcaption>
+</figure>
+</div>
+<p>You’ll then click the green “Add token” button on the right, followed by the blue “Show” button for the newly created token. In the pop-up window, you’ll click the “Show secret” button followed by the “Copy to clipboard” button. Next, paste and run this code in the RStudio console to link your account.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="src/shinyapps.io token.png" class="img-fluid figure-img"></p>
+<figcaption>Example of how to generate token and link with R profile</figcaption>
+</figure>
+</div>
+</section>
+<section id="deploying-your-shiny-app" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="deploying-your-shiny-app"><span class="header-section-number">9.3</span> Deploying your Shiny app</h2>
+<p>Now that all of the configuration steps have been completed, we can move on to deploying the app online. This can be accomplished by clicking the circular blue button (in the upper right of your “Source” window next to the “Run App” button) to publish your app (or potentially other R Markdown or Quarto documents).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="src/shinyapps publish btn.png" class="img-fluid figure-img"></p>
+<figcaption>Screenshot showing where “publish” button can be found in RStudio IDE.</figcaption>
+</figure>
+</div>
+<p>This will pull up a pop-up window for you to select which files will be published and deployed with your app to shinyapps.io. <strong>If you don’t see your shinyapps.io account listed on the right, click the “Add new account” link and follow the instructions.</strong> There may be instances where there are files in your app’s working directory that aren’t relevant and you don’t want or need to publish. Make sure only to check the boxes for the relevant files or folders. Additionally, you should carefully choose the app’s title, which will also be included in the URL in addition to your username. While you may be prompted to edit this title, make sure that there are no spaces or special characters other than spaces or underscores.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="src/shinyapps publish popup.png" class="img-fluid figure-img"></p>
+<figcaption>Example of settings to choose prior to publishing Shiny app.</figcaption>
+</figure>
+</div>
+<p>Once you’ve made selections to your satisfaction, click the “Publish” button and wait while the app is fully bundled to deploy online. Depending on the size of the files included and the number of R packages (and associated dependencies used), this may take anywhere from a few minutes to potentially 30 min or longer. Since there are potential issues that can arise from timeouts while deploying your Shiny app, it is recommended that file sizes be minimized as much as possible for larger apps, as well as selecting only R packages that are necessary. <em>For example, try avoiding the use of <code>{tidyverse}</code> and instead only load individual packages that are used within the app since some of these packages can have many additional dependencies.</em> Once the app has been successfully deployed, it should automatically open within your browser. You can then explore metrics of general usage of your Shiny app and manage them from your account on shinyapps.io. Congrats, you just deployed your first Shiny app! 🎉🎉</p>
+<p>There are a number of useful resources related to deploying apps to shinyapps.io, including the <a href="https://docs.posit.co/shinyapps.io/guide/getting_started/">User Guide</a> mentioned above, a <a href="https://forum.posit.co/c/posit-professional-hosted/shinyappsio/24">Posit Community</a> forum, the shinyapps.io <a href="https://support.posit.co/hc/en-us/sections/203868087-shinyapps-io">FAQ page</a>, as well as individual posts on websites such as StackOverflow.</p>
+</section>
+<section id="extra-different-formats-for-publishing" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="extra-different-formats-for-publishing"><span class="header-section-number">9.4</span> Extra: different formats for publishing</h2>
+<p>While not covered during this short course, there are a few different ways that Shiny apps can be organized and published online. All examples shown here included the data, UI, and server components within a single file app structure (which typically is saved in a <code>app.R</code> file). When creating larger and more complex Shiny apps, this can get a bit unwieldy and make it difficult to maintain, update, and debug. Therefore, it may be more useful to switch to a two file app (<code>ui.R</code>, <code>server.R</code>) that separates out the UI and server into separate files. It also may make sense to turn this into three files, where a <code>global.R</code> file is added that may contain the code to load in R packages, data, and do any pre-processing outside of the UI and server components. If wanting to include images that are saved locally on your computer, it is also recommended that these be stored in a folder labeled <code>www</code>, which will be checked by default in R when running the app.</p>
+<p>Shiny apps can also be created from other file types besides just R scripts. This includes creating a Shiny app within an R Markdown or Quarto file, which can also be deployed to shinyapps.io using the same approach described above. For those familiar with the syntax for creating .rmd and .qmd documents, this is a fairly simple adjustment that make it even easier to configure interactive dashboards.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -667,9 +721,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
