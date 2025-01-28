@@ -2,7 +2,7 @@
 title: "Interactive mapping with Leaflet"
 ---
 
-While not apart of `{shiny}`, many people working in the environmental sciences use maps to display study areas, sampling locations, geospatial model predictions, environmental layers, and more. While this could technically be achieved using static map layers with standard R plotting options, it is often much more difficult to explore these spatial layers in greater detail. By using interactive mapping options built upon JavaScript libraries such as Leaflet, we can explore and present data dynamically. This can be even more powerful if integrating Leaflet (via the `{leaflet}` R package) with Shiny. The examples provided below show different layers and features that can be used within a standard Leaflet map, as well as ways to integrate within a Shiny app to extend interactivity even further.
+While not a part of `{shiny}`, many people working in the environmental sciences use maps to display study areas, sampling locations, geospatial model predictions, environmental layers, and more. While this could technically be achieved using static map layers with standard R plotting options, it is often much more difficult to explore these spatial layers in greater detail. By using interactive mapping options built upon JavaScript libraries such as Leaflet, we can explore and present data dynamically. This can be even more powerful if integrating Leaflet (via the `{leaflet}` R package) with Shiny. The examples provided below show different layers and features that can be used within a standard Leaflet map, as well as ways to integrate within a Shiny app to extend interactivity even further.
 
 ## Creating a simple Leaflet map
 
